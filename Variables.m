@@ -19,6 +19,8 @@ classdef Variables
         hFilet = 0.1525;
         largFilet = 1.83;
         debordementFilet = 0.1525;
+        
+        aGrav = -9.81;
     end
     
     methods (Static)

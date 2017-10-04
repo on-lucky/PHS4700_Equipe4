@@ -17,7 +17,7 @@ classdef Option1
               ];
             trajectoire = [];
             while (true) 
-                qs = Option1.SEDRK4t0 (q0, 0, DeltaT, -9.8);
+                qs = Option1.SEDRK4t0 (q0, 0, DeltaT);
                 trajectoire = [trajectoire; qs];
                 coup = Collisions.collision(qs(4), qs(5), qs(6), rbi(1));
                     if (coup == Variables.coup0 || coup == Variables.coup1 || coup == Variables.coup2 || coup == Variables.coup3)
@@ -42,7 +42,20 @@ classdef Option1
             plot3(X, Y, Z);
         end
         
-        function qs = SEDRK4t0 (q0 , t0 , DeltaT, g)
+        function res = g (q0 , t0 )
+            % dvx (t)/dt = -( vx(t))^2/sk
+            % dx (t)/dt = vx(t)
+            % dvy (t)/dt = -( vy(t))^2/sk
+            % dy (t)/dt = vy(t)
+            % dvz (t)/dt = -( vz(t))^2/sk
+            % dz (t)/dt = vz(t)
+            % q0 (1) = vx(t0)
+            % q0 (4) = x(t0)
+            k = 2.0;
+            res = [ (-q0(1)^2/k) (q0(1))];
+        end
+        
+        function qs = SEDRK4t0 (q0 , t0 , DeltaT)
         % Solution equations differentielles
         % par methode de RK4
         % Equation a resoudre : dq / dt = g(q ,t)
@@ -54,10 +67,10 @@ classdef Option1
         % C ’ est un m - file de matlab
         % qui retourne la valeur de g
         % au temps choisi
-        k1 = feval (g , q0 , t0 );
-        k2 = feval (g , q0 + k1 * DeltaT /2 , t0 + DeltaT /2);
-        k3 = feval (g , q0 + k2 * DeltaT /2 , t0 + DeltaT /2);
-        k4 = feval (g , q0 + k3 * DeltaT , t0 + DeltaT );
+        k1 = feval (Option1.g , q0 , t0 );
+        k2 = feval (Option1.g , q0 + k1 * DeltaT /2 , t0 + DeltaT /2);
+        k3 = feval (Option1.g , q0 + k2 * DeltaT /2 , t0 + DeltaT /2);
+        k4 = feval (Option1.g , q0 + k3 * DeltaT , t0 + DeltaT );
         qs = q0 + DeltaT *( k1 +2* k2 +2* k3 + k4 )/6;
         end
     end

@@ -1,13 +1,13 @@
-% % Essai #1
-% 
-% rbi_e1 = [0; 0.5; 1.1];
-% vbi_e1 = [4; 0; 0.8];
-% wbi_e1 = [0; -70; 0];
-% 
-% [coup_e1_1, tf_e1_1, rbf_e1_1, vbf_e1_1] = Devoir2(Variables.option1, rbi_e1, vbi_e1, wbi_e1)
-% [coup_e1_2, tf_e1_2, rbf_e1_2, vbf_e1_2] = Devoir2(Variables.option2, rbi_e1, vbi_e1, wbi_e1)
-% [coup_e1_3, tf_e1_3, rbf_e1_3, vbf_e1_3] = Devoir2(Variables.option3, rbi_e1, vbi_e1, wbi_e1)
-% 
+ % Essai #1
+ 
+rbi_e1 = [0; 0.5; 1.1];
+vbi_e1 = [4; 0; 0.8];
+wbi_e1 = [0; -70; 0];
+
+[coup_e1_1, tf_e1_1, rbf_e1_1, vbf_e1_1] = Devoir2(Variables.option1, rbi_e1, vbi_e1, wbi_e1)
+[coup_e1_2, tf_e1_2, rbf_e1_2, vbf_e1_2] = Devoir2(Variables.option2, rbi_e1, vbi_e1, wbi_e1)
+[coup_e1_3, tf_e1_3, rbf_e1_3, vbf_e1_3] = Devoir2(Variables.option3, rbi_e1, vbi_e1, wbi_e1)
+
 % % Essai #2
 % 
 % rbi_e2 = [0; 0.4; 1.14];
