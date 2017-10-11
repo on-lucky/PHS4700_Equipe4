@@ -1,4 +1,4 @@
- % Essai #1
+% Essai #1
  
 rbi_e1 = [0; 0.5; 1.1];
 vbi_e1 = [4; 0; 0.8];
@@ -17,7 +17,7 @@ wbi_e1 = [0; -70; 0];
 % [coup_e2_1, tf_e2_1, rbf_e2_1, vbf_e2_1] = Devoir2(Variables.option1, rbi_e2, vbi_e2, wbi_e2)
 % [coup_e2_2, tf_e2_2, rbf_e2_2, vbf_e2_2] = Devoir2(Variables.option2, rbi_e2, vbi_e2, wbi_e2)
 % [coup_e2_3, tf_e2_3, rbf_e2_3, vbf_e2_3] = Devoir2(Variables.option3, rbi_e2, vbi_e2, wbi_e2)
-% 
+
 % % Essai #3
 % 
 % rbi_e3 = [2.74; 0.5; 1.14];
@@ -41,7 +41,7 @@ wbi_e1 = [0; -70; 0];
 
 
 % Tests collisions
-coup0 = Collisions.collision(1.7, 0.1, Variables.hTable + Variables.rb/2, 0)
-coup1 = Collisions.collision(1, 0.1, Variables.hTable + Variables.rb/2, 0)
-coup2 = Collisions.collision(Variables.longTable/2, 0.1, Variables.hTable + Variables.hFilet, 0)
-coup3 = Collisions.collision(Variables.longTable/2, 0.1, Variables.rb/2, 0)
+% coup0 = Collisions.collision(1.7, 0.1, Variables.hTable + Variables.rb/2, 0)
+% coup1 = Collisions.collision(1, 0.1, Variables.hTable + Variables.rb/2, 0)
+% coup2 = Collisions.collision(Variables.longTable/2, 0.1, Variables.hTable + Variables.hFilet, 0)
+% coup3 = Collisions.collision(Variables.longTable/2, 0.1, Variables.rb/2, 0)

@@ -11,6 +11,7 @@ classdef Variables
         option3 = 3;
         
         rb = 0.0199;
+        mb = 0.00274;
         
         hTable = 0.76;
         longTable = 2.74;
@@ -21,8 +22,10 @@ classdef Variables
         debordementFilet = 0.1525;
         
         aGrav = -9.81;
-    end
-    
-    methods (Static)
+        
+        p = 1.2;
+        Cv = 0.5;
+        A = pi * Variables.rb^2;
+        Cm = 0.29;
     end
 end
