@@ -14,10 +14,10 @@ classdef Outils
             xlabel('x');
             ylabel('y');
             zlabel('z');
-            % title('Essai 1');
+            title('Essai 1');
             % title('Essai 2');
             % title('Essai 3');
-            title('Essai 4');
+            % title('Essai 4');
         end
         
         function qs = SEDRK4t0(q0, DeltaT, option)

@@ -27,5 +27,7 @@ classdef Variables
         Cv = 0.5;
         A = pi * Variables.rb^2;
         Cm = 0.29;
+        
+        erreur = 0.001;
     end
 end
