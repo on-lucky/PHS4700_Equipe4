@@ -1,6 +1,21 @@
 classdef Outils
     methods (Static)
         function genererGraphe(trajectoire, size, option) 
+            
+            %dessiner la table
+            ptsTable = [Variables.pointTable1; Variables.pointTable2; Variables.pointTable3; Variables.pointTable4; Variables.pointTable1];
+            ligneTable = plot3(ptsTable(:,1), ptsTable(:,2), ptsTable(:,3))
+            ligneTable.Color = 'blue';
+            
+            hold on
+            
+            %dessiner le filet
+            ptsFilet = [Variables.pointFilet1; Variables.pointFilet2; Variables.pointFilet3; Variables.pointFilet4; Variables.pointFilet1];
+            ligneFilet = plot3(ptsFilet(:,1), ptsFilet(:,2), ptsFilet(:,3))
+            ligneFilet.Color = 'red';
+            
+            hold on
+            
             X = zeros(size, 1);
             Y = zeros(size, 1);
             Z = zeros(size, 1);

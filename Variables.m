@@ -6,6 +6,19 @@ classdef Variables
         coup3 = 3; %coup au sol
         coupIntdetermine = -1; %coup en progression
         
+        % points dessinant la table
+        pointTable1 = [0, 0, Variables.hTable];
+        pointTable2 = [0, Variables.largTable, Variables.hTable];
+        pointTable3 = [Variables.longTable, Variables.largTable, Variables.hTable];
+        pointTable4 = [Variables.longTable, 0, Variables.hTable];
+        
+         % points dessinant le filet
+         
+        pointFilet1 = [Variables.longTable/2, -Variables.debordementFilet, Variables.hTable];
+        pointFilet2 = [Variables.longTable/2, -Variables.debordementFilet, Variables.hTable + Variables.hFilet];
+        pointFilet3 = [Variables.longTable/2, Variables.largTable + Variables.debordementFilet, Variables.hTable + Variables.hFilet];
+        pointFilet4 = [Variables.longTable/2, Variables.largTable + Variables.debordementFilet, Variables.hTable];
+        
         option1 = 1;
         option2 = 2;
         option3 = 3;
