@@ -1,46 +1,44 @@
 classdef Variables
     properties (Constant)
-        coup0 = 0; %coup réussi
-        coup1 = 1; %coup du mauvais côté de la table
-        coup2 = 2; %coup dans le filet
-        coup3 = 3; %coup au sol
-        coupIntdetermine = -1; %coup en progression
         
-        % points dessinant la table
-        pointTable1 = [0, 0, Variables.hTable];
-        pointTable2 = [0, Variables.largTable, Variables.hTable];
-        pointTable3 = [Variables.longTable, Variables.largTable, Variables.hTable];
-        pointTable4 = [Variables.longTable, 0, Variables.hTable];
+        %voiture A
+        ma = 1540;
+        La = 4.78;
+        la = 1.82;
+        ha = 1.8;
+        raInterne = Variables.la / 2;
+        raExterne = squrt((Variables.la / 2)^2 + (Variables.La / 2)^2);
         
-         % points dessinant le filet
-         
-        pointFilet1 = [Variables.longTable/2, -Variables.debordementFilet, Variables.hTable];
-        pointFilet2 = [Variables.longTable/2, -Variables.debordementFilet, Variables.hTable + Variables.hFilet];
-        pointFilet3 = [Variables.longTable/2, Variables.largTable + Variables.debordementFilet, Variables.hTable + Variables.hFilet];
-        pointFilet4 = [Variables.longTable/2, Variables.largTable + Variables.debordementFilet, Variables.hTable];
+        %voiture B
+        mb = 1010;
+        Lb = 4.23;
+        lb = 1.6;
+        hb = 1.8;
+        rbInterne = Variables.lb / 2;
+        rbExterne = squrt((Variables.lb / 2)^2 + (Variables.Lb / 2)^2);
         
-        option1 = 1;
-        option2 = 2;
-        option3 = 3;
+        aGrav = 9.81;
         
-        rb = 0.0199;
-        mb = 0.00274;
+        coefficientRes = 0.8;
         
-        hTable = 0.76;
-        longTable = 2.74;
-        largTable = 1.525;
+        erreur = 0.01;
+        vitesseMinimaleSimulation = 0.01;
         
-        hFilet = 0.1525;
-        largFilet = 1.83;
-        debordementFilet = 0.1525;
+        collIndetermine = -1;
+        collReussie = 0;
+        collRatee = 1;
+        collProximite = 2;
         
-        aGrav = -9.81;
+        avecFrot = true;
         
-        p = 1.2;
-        Cv = 0.5;
-        A = pi * Variables.rb^2;
-        Cm = 0.29;
-        
-        erreur = 0.001;
     end
+  methods (Static)   
+    function coFrot = coefficientFrot(vitesse)
+        if (norm(vitesse) < 50) 
+            coFrot = 0.15 * (1 - (norm(vitesse) / 100));
+        else
+            coFrot = 0.075;
+        end  
+    end
+  end
 end
