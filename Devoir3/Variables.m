@@ -21,7 +21,15 @@ classdef Variables
         
         coefficientRes = 0.8;
         
+        erreur = 0.01;
+        vitesseMinimaleSimulation = 0.01;
         
+        collIndetermine = -1;
+        collReussie = 0;
+        collRatee = 1;
+        collProximite = 2;
+        
+        avecFrot = true;
         
     end
   methods (Static)   
