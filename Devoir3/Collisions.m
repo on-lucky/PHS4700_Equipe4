@@ -1,0 +1,92 @@
+function estProche = verifierPoximite(posa, posb)
+    vecDist = posa - posb;
+    distance = norm(vecDist);
+    
+    if(distance <= Variables.raExterne + Variables.rbExterne)
+        estProche = true;
+    else
+        estProche = false;
+    end
+end
+
+function estColle = verifierCollision(posa, posb)
+vecDist = posa - posb;
+    distance = norm(vecDist);
+    
+    if(distance <= Variables.raInterne + Variables.rbInterne)
+        estColle = true;
+    else
+        estColle = false;
+    end
+end
+
+% cherche une collision avec la méthode du plan de division
+function collision = planDivision(posa, posb, angleRot)
+    [pointsA pointsB] = trouverCoins(posa, posb, angleRot);
+    
+    % On assume qu'il y a une collision. Si on trouve un plan de division, on prouve qu'il n'y en a pas.
+    collision = true;
+    
+    % teste les 4 plans de division de la voiture A
+    for i = 1:4
+        normale = trouverNormale(pointsA(i), pointsA(mod(i+1, 4)));
+        if(~collisionPlanDivision(normale, pointsA(i), pointsB))
+            collision = false;
+        end
+    end
+    
+    % teste les 4 plans de division de la voiture B
+    for i = 1:4
+        normale = trouverNormale(pointsB(i), pointsB(mod(i+1, 4)));
+        if(~collisionPlanDivision(normale, pointsB(i), pointsA))
+            collision = false;
+        end
+    end
+end
+
+% Trouve toutes les positions des points des deux rectangles
+function [pointsA pointsB] = trouverCoins(posa, posb, angleRot)
+
+    matriceRotation = [cos(angleRot) -sin(angleRot); sin(angleRot) cos(angleRot)];
+    
+    pointA1 = matriceRotation * [posa(1) + Variables.la/2 posa(2) + Variables.La/2];
+    pointA2 = matriceRotation * [posa(1) + Variables.la/2 posa(2) - Variables.La/2];
+    pointA3 = matriceRotation * [posa(1) - Variables.la/2 posa(2) - Variables.La/2];
+    pointA4 = matriceRotation * [posa(1) - Variables.la/2 posa(2) + Variables.La/2];
+    
+    pointsA = [pointA1 pointA2 pointA3 pointA4];
+    
+    pointB1 = matriceRotation * [posb(1) + Variables.lb/2 posb(2) + Variables.Lb/2];
+    pointB2 = matriceRotation * [posb(1) + Variables.lb/2 posb(2) - Variables.Lb/2];
+    pointB3 = matriceRotation * [posb(1) - Variables.lb/2 posb(2) - Variables.Lb/2];
+    pointB4 = matriceRotation * [posb(1) - Variables.lb/2 posb(2) + Variables.Lb/2];
+    
+    pointsB = [pointB1 pointB2 pointB3 pointB4];
+end
+
+%trouve la normale associé au plan formé par les points point1 et point2
+function normale = trouverNormale(point1, point2)
+    arrete = point2 - point1;
+    matriceRotation = [cos(pi/2) -sin(pi/2); sin(pi/2) cos(pi/2)];
+    normale = matriceRotation * arrete;
+    normale = normale/norm(normale);
+end
+
+%Trouve toutes les distances entre les points pointsSolide et le plan de division
+function distances = calculerDistances(normale, pointPlan, pointsSolide)
+    distances = zeroes(4);
+    for i = 1:4
+        distances(i) = normale * (pointsSolide(i) - pointPlan);
+    end
+end
+
+%Verifie si il y a un pt pointsSolide qui a une distance au plan de division d < 0
+function collision = collisionPlanDivision(normale, pointPlan, pointsSolide)
+    collision = false;
+    distances = calculerDistances(normale, pointPlan, pointsSolide);
+    for i = 1:4
+        if(distances(i) <= 0)
+            collision = true;
+        end
+    end
+end
