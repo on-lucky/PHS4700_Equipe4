@@ -24,9 +24,7 @@ classdef Outils
                 
                 coll = Collisions.verifierProximite([q0a(3) q0a(4)], [q0b(3) q0b(4)]);
                 if(coll == Variables.collProximite)
-                    angleRotA = vai(3) * t0;
-                    angleRotB = vbi(3) * t0;
-                    coll = Collisions.planDivision([q0a(3) q0a(4)], [q0b(3) q0b(4)], angleRotA, angleRotB);
+                    %coll = Collisions.planDivision([q0a(3) q0a(4)], [q0b(3) q0b(4)], angleRotA, angleRotB);
                 end
                 
                 vitessePlusVite = Outils.vitessePlusVite([q0a(1) q0a(2)], [q0b(1) q0b(2)]);
@@ -42,10 +40,14 @@ classdef Outils
             end
             tf = t0;
             Coll = coll;
-            vaf = [q0a(1) q0a(2) vai(3)];
-            raf = [q0a(3) q0a(4)];
-            vbf = [q0b(1) q0b(2) vbi(3)];
-            rbf = [q0b(3) q0b(4)];
+            if(coll == Variables.collRatee)
+                vaf = [q0a(1) q0a(2) vai(3)];
+                raf = [q0a(3) q0a(4)];
+                vbf = [q0b(1) q0b(2) vbi(3)];
+                rbf = [q0b(3) q0b(4)];
+            else
+                %[vaf, raf, vbf, rbf] = Collisions.conditionsInitiales();
+            end
             sizeTrajectoire = size(trajectoirea);
             Outils.genererGraphe(trajectoirea, trajectoireb, sizeTrajectoire(1));
         end
