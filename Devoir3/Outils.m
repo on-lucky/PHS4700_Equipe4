@@ -24,6 +24,8 @@ classdef Outils
                 
                 coll = Collisions.verifierProximite([q0a(3) q0a(4)], [q0b(3) q0b(4)]);
                 if(coll == Variables.collProximite)
+                    angleRotA = vai(3) * t0;
+                    angleRotB = vbi(3) * t0;
                     coll = Collisions.planDivision([q0a(3) q0a(4)], [q0b(3) q0b(4)], angleRotA, angleRotB);
                 end
                 

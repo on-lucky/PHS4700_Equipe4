@@ -24,45 +24,45 @@ classdef Collisions
 
         % cherche une collision avec la méthode du plan de division
         function collision = planDivision(posa, posb, angleRotA, angleRotB)
-            [pointsA pointsB] = trouverCoins(posa, posb, angleRotA, angleRotB);
+            [pointsA, pointsB] = Collisions.trouverCoins(posa, posb, angleRotA, angleRotB);
 
             % On assume qu'il y a une collision. Si on trouve un plan de division, on prouve qu'il n'y en a pas.
             collision = Variables.collReussie;
 
             % teste les 4 plans de division de la voiture A
             for i = 1:4
-                normale = trouverNormale(pointsA(i), pointsA(mod(i+1, 4)));
-                if(~collisionPlanDivision(normale, pointsA(i), pointsB))
+                normale = Collisions.trouverNormale(pointsA(i), pointsA(mod(i+1, 4)));
+                if(~Collisions.collisionPlanDivision(normale, pointsA(i), pointsB))
                     collision = Variables.collIndetermine;
                 end
             end
 
             % teste les 4 plans de division de la voiture B
             for i = 1:4
-                normale = trouverNormale(pointsB(i), pointsB(mod(i+1, 4)));
-                if(~collisionPlanDivision(normale, pointsB(i), pointsA))
+                normale = Collisions.trouverNormale(pointsB(i), pointsB(mod(i+1, 4)));
+                if(~Collisions.collisionPlanDivision(normale, pointsB(i), pointsA))
                     collision = Variables.collIndetermine;
                 end
             end
         end
 
         % Trouve toutes les positions des points des deux rectangles
-        function [pointsA pointsB] = trouverCoins(posa, posb, angleRotA, angleRotB)
+        function [pointsA, pointsB] = trouverCoins(posa, posb, angleRotA, angleRotB)
 
             matriceRotationA = [cos(angleRotA) -sin(angleRotA); sin(angleRotA) cos(angleRotA)];
             matriceRotationB = [cos(angleRotB) -sin(angleRotB); sin(angleRotB) cos(angleRotB)];
 
-            pointA1 = matriceRotationA * [posa(1) + Variables.la/2 posa(2) + Variables.La/2];
-            pointA2 = matriceRotationA * [posa(1) + Variables.la/2 posa(2) - Variables.La/2];
-            pointA3 = matriceRotationA * [posa(1) - Variables.la/2 posa(2) - Variables.La/2];
-            pointA4 = matriceRotationA * [posa(1) - Variables.la/2 posa(2) + Variables.La/2];
+            pointA1 = matriceRotationA * [posa(1) + Variables.la/2; posa(2) + Variables.La/2];
+            pointA2 = matriceRotationA * [posa(1) + Variables.la/2; posa(2) - Variables.La/2];
+            pointA3 = matriceRotationA * [posa(1) - Variables.la/2; posa(2) - Variables.La/2];
+            pointA4 = matriceRotationA * [posa(1) - Variables.la/2; posa(2) + Variables.La/2];
 
             pointsA = [pointA1 pointA2 pointA3 pointA4];
 
-            pointB1 = matriceRotationB * [posb(1) + Variables.lb/2 posb(2) + Variables.Lb/2];
-            pointB2 = matriceRotationB * [posb(1) + Variables.lb/2 posb(2) - Variables.Lb/2];
-            pointB3 = matriceRotationB * [posb(1) - Variables.lb/2 posb(2) - Variables.Lb/2];
-            pointB4 = matriceRotationB * [posb(1) - Variables.lb/2 posb(2) + Variables.Lb/2];
+            pointB1 = matriceRotationB * [posb(1) + Variables.lb/2; posb(2) + Variables.Lb/2];
+            pointB2 = matriceRotationB * [posb(1) + Variables.lb/2; posb(2) - Variables.Lb/2];
+            pointB3 = matriceRotationB * [posb(1) - Variables.lb/2; posb(2) - Variables.Lb/2];
+            pointB4 = matriceRotationB * [posb(1) - Variables.lb/2; posb(2) + Variables.Lb/2];
 
             pointsB = [pointB1 pointB2 pointB3 pointB4];
         end
@@ -77,7 +77,7 @@ classdef Collisions
 
         %Trouve toutes les distances entre les points pointsSolide et le plan de division
         function distances = calculerDistances(normale, pointPlan, pointsSolide)
-            distances = zeroes(4);
+            distances = zeros(4);
             for i = 1:4
                 distances(i) = normale * (pointsSolide(i) - pointPlan);
             end
@@ -86,7 +86,7 @@ classdef Collisions
         %Verifie si il y a un pt pointsSolide qui a une distance au plan de division d < 0
         function collision = collisionPlanDivision(normale, pointPlan, pointsSolide)
             collision = false;
-            distances = calculerDistances(normale, pointPlan, pointsSolide);
+            distances = Collisions.calculerDistances(normale, pointPlan, pointsSolide);
             for i = 1:4
                 if(distances(i) <= 0)
                     collision = true;
