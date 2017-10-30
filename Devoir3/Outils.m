@@ -10,20 +10,22 @@ classdef Outils
             DeltaT  = Variables.erreur / Outils.vitessePlusVite([vai(1) vai(2)], [vbi(1) vbi(2)]);
             t0 = 0;
             coll = Variables.collIndetermine;
+            pasEncoreGlissementB = true;
             while (coll == Variables.collIndetermine)
                 t0 = t0 + DeltaT;
-                q0a = Outils.SEDRK4t0(q0a, DeltaT, Variables.avecFrot);
                 if (t0 >= tb)
                     q0b = Outils.SEDRK4t0(q0b, DeltaT, Variables.avecFrot);
                 else
                     q0b = Outils.SEDRK4t0(q0b, DeltaT, ~Variables.avecFrot);
                 end
+                q0a = Outils.SEDRK4t0(q0a, DeltaT, Variables.avecFrot);
                 trajectoirea = [trajectoirea; q0a(3) q0a(4)];
                 trajectoireb = [trajectoireb; q0b(3) q0b(4)];
                 
                 coll = Collisions.verifierProximite([q0a(3) q0a(4)], [q0b(3) q0b(4)]);
                 if(coll == Variables.collProximite)
                     coll = Collisions.planDivision([q0a(3) q0a(4)], [q0b(3) q0b(4)], angleRotA, angleRotB);
+                end
                 
                 vitessePlusVite = Outils.vitessePlusVite([q0a(1) q0a(2)], [q0b(1) q0b(2)]);
                 if (vitessePlusVite < Variables.vitesseMinimaleSimulation)
@@ -31,6 +33,10 @@ classdef Outils
                 end
                 
                 DeltaT  = Variables.erreur / vitessePlusVite;
+                if(t0 + DeltaT > tb && pasEncoreGlissementB)
+                    DeltaT = tb - t0;
+                    pasEncoreGlissementB = false;
+                end
             end
             tf = t0;
             Coll = coll;

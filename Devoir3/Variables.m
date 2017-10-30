@@ -7,7 +7,7 @@ classdef Variables
         la = 1.82;
         ha = 1.8;
         raInterne = Variables.la / 2;
-        raExterne = squrt((Variables.la / 2)^2 + (Variables.La / 2)^2);
+        raExterne = sqrt((Variables.la / 2)^2 + (Variables.La / 2)^2);
         
         %voiture B
         mb = 1010;
@@ -15,7 +15,7 @@ classdef Variables
         lb = 1.6;
         hb = 1.8;
         rbInterne = Variables.lb / 2;
-        rbExterne = squrt((Variables.lb / 2)^2 + (Variables.Lb / 2)^2);
+        rbExterne = sqrt((Variables.lb / 2)^2 + (Variables.Lb / 2)^2);
         
         aGrav = 9.81;
         
