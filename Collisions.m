@@ -1,93 +1,86 @@
-function estProche = verifierProximite(posa, posb)
-    vecDist = posa - posb;
-    distance = norm(vecDist);
-    
-    if(distance <= Variables.raExterne + Variables.rbExterne)
-        estProche = Variables.collProximite;
-    else
-        estProche = Variables.collIndetermine;
+classdef Collisions
+    properties (Constant)
+            
+        limiteFilet1 = [Variables.longTable/2;
+                        -Variables.debordementFilet;
+                        Variables.hTable];
+                   
+        limiteFilet2 = [Variables.longTable/2;
+                        Variables.largTable + Variables.debordementFilet;
+                        Variables.hTable + Variables.hFilet];
+                    
+        limiteTable1 = [0;
+                        0;
+                        Variables.hTable];
+                   
+        limiteTable2 = [Variables.longTable;
+                        Variables.largTable;
+                        Variables.hTable];
+        
     end
-end
-
-function estColle = verifierCollision(posa, posb)
-vecDist = posa - posb;
-    distance = norm(vecDist);
     
-    if(distance <= Variables.raInterne + Variables.rbInterne)
-        estColle = Variables.collReussie;
-    else
-        estColle = Variables.collIndetermine;
-    end
-end
-
-% cherche une collision avec la méthode du plan de division
-function collision = planDivision(posa, posb, angleRotA, angleRotB)
-    [pointsA pointsB] = trouverCoins(posa, posb, angleRotA, angleRotB);
-    
-    % On assume qu'il y a une collision. Si on trouve un plan de division, on prouve qu'il n'y en a pas.
-    collision = Variables.collReussie;
-    
-    % teste les 4 plans de division de la voiture A
-    for i = 1:4
-        normale = trouverNormale(pointsA(i), pointsA(mod(i+1, 4)));
-        if(~collisionPlanDivision(normale, pointsA(i), pointsB))
-            collision = Variables.collIndetermine;
+    methods (Static)
+        function coup = collision(rx, ry, rz, rxInit)
+            coup = Collisions.collisionTable([rx; ry; rz], rxInit);
+            if (coup == Variables.coupIntdetermine)
+                coup = Collisions.collisionFilet([rx; ry; rz]);
+                if (coup == Variables.coupIntdetermine)
+                    coup = Collisions.collisionSol([rx; ry; rz]);
+                end
+            end
         end
-    end
-    
-    % teste les 4 plans de division de la voiture B
-    for i = 1:4
-        normale = trouverNormale(pointsB(i), pointsB(mod(i+1, 4)));
-        if(~collisionPlanDivision(normale, pointsB(i), pointsA))
-            collision = Variables.collIndetermine;
+        
+        function coup = collisionTable(pos, rxInit)                   
+            d = Collisions.trouverDistance(pos, Collisions.limiteTable1, Collisions.limiteTable2);
+            
+            if (d <= Variables.rb)
+                if ((rxInit < Variables.longTable/2 && pos(1) <= Variables.longTable/2) ...
+                        || (rxInit > Variables.longTable/2 && pos(1) >= Variables.longTable/2))
+                    coup = Variables.coup1;
+                else
+                    coup = Variables.coup0;
+                end
+            else
+                coup = Variables.coupIntdetermine;
+            end
         end
-    end
-end
-
-% Trouve toutes les positions des points des deux rectangles
-function [pointsA pointsB] = trouverCoins(posa, posb, angleRotA, angleRotB)
-
-    matriceRotationA = [cos(angleRotA) -sin(angleRotA); sin(angleRotA) cos(angleRotA)];
-    matriceRotationB = [cos(angleRotB) -sin(angleRotB); sin(angleRotB) cos(angleRotB)];
-    
-    pointA1 = matriceRotationA * [posa(1) + Variables.la/2 posa(2) + Variables.La/2];
-    pointA2 = matriceRotationA * [posa(1) + Variables.la/2 posa(2) - Variables.La/2];
-    pointA3 = matriceRotationA * [posa(1) - Variables.la/2 posa(2) - Variables.La/2];
-    pointA4 = matriceRotationA * [posa(1) - Variables.la/2 posa(2) + Variables.La/2];
-    
-    pointsA = [pointA1 pointA2 pointA3 pointA4];
-    
-    pointB1 = matriceRotationB * [posb(1) + Variables.lb/2 posb(2) + Variables.Lb/2];
-    pointB2 = matriceRotationB * [posb(1) + Variables.lb/2 posb(2) - Variables.Lb/2];
-    pointB3 = matriceRotationB * [posb(1) - Variables.lb/2 posb(2) - Variables.Lb/2];
-    pointB4 = matriceRotationB * [posb(1) - Variables.lb/2 posb(2) + Variables.Lb/2];
-    
-    pointsB = [pointB1 pointB2 pointB3 pointB4];
-end
-
-%trouve la normale associé au plan formé par les points point1 et point2
-function normale = trouverNormale(point1, point2)
-    arrete = point2 - point1;
-    matriceRotation = [cos(pi/2) -sin(pi/2); sin(pi/2) cos(pi/2)];
-    normale = matriceRotation * arrete;
-    normale = normale/norm(normale);
-end
-
-%Trouve toutes les distances entre les points pointsSolide et le plan de division
-function distances = calculerDistances(normale, pointPlan, pointsSolide)
-    distances = zeroes(4);
-    for i = 1:4
-        distances(i) = normale * (pointsSolide(i) - pointPlan);
-    end
-end
-
-%Verifie si il y a un pt pointsSolide qui a une distance au plan de division d < 0
-function collision = collisionPlanDivision(normale, pointPlan, pointsSolide)
-    collision = false;
-    distances = calculerDistances(normale, pointPlan, pointsSolide);
-    for i = 1:4
-        if(distances(i) <= 0)
-            collision = true;
+        
+        function coup = collisionFilet(pos)                   
+            d = Collisions.trouverDistance(pos, Collisions.limiteFilet1, Collisions.limiteFilet2);
+            
+            if (d <= Variables.rb)
+                coup = Variables.coup2;
+            else
+                coup = Variables.coupIntdetermine;
+            end
+        end
+        
+        function coup = collisionSol(pos)
+            if (pos(3) <= Variables.rb)
+                coup = Variables.coup3;
+            else
+                coup = Variables.coupIntdetermine;
+            end
+        end
+        
+        function normeDist = trouverDistance(pos, limite1, limite2)
+            d = [0; 0; 0];
+            for i=1:3
+                if (limite1(i) > limite2(i))
+                    temp = limite1(i);
+                    limite1(i) = limite2(i);
+                    limite2(i) = temp;
+                end
+                
+                if (pos(i) < limite1(i))
+                    d(i) = limite1(i) - pos(i);
+                elseif (pos(i) > limite2(i))
+                    d(i) = pos(i) - limite2(i);
+                else
+                    d(i) = 0;
+                end
+            end
+            normeDist = norm(d);
         end
     end
 end

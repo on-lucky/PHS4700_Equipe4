@@ -21,7 +21,9 @@ classdef Outils
                 trajectoirea = [trajectoirea; q0a(3) q0a(4)];
                 trajectoireb = [trajectoireb; q0b(3) q0b(4)];
                 
-                %coll = Collision.verifierProximite([q0a(3) q0a(4)], [q0b(3) q0b(4)]);
+                coll = Collisions.verifierProximite([q0a(3) q0a(4)], [q0b(3) q0b(4)]);
+                if(coll == Variables.collProximite)
+                    coll = Collisions.planDivision([q0a(3) q0a(4)], [q0b(3) q0b(4)], angleRotA, angleRotB);
                 
                 vitessePlusVite = Outils.vitessePlusVite([q0a(1) q0a(2)], [q0b(1) q0b(2)]);
                 if (vitessePlusVite < Variables.vitesseMinimaleSimulation)
