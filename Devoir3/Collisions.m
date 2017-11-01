@@ -23,27 +23,34 @@ classdef Collisions
         end
 
         % cherche une collision avec la méthode du plan de division
-        function collision = planDivision(posa, posb, angleRotA, angleRotB)
+        function [collision, normaleRet] = planDivision(posa, posb, angleRotA, angleRotB)
             [pointsA, pointsB] = Collisions.trouverCoins(posa, posb, angleRotA, angleRotB);
 
             % On assume qu'il y a une collision. Si on trouve un plan de division, on prouve qu'il n'y en a pas.
-            collision = Variables.collReussie;
+            coll = Variables.collReussie;
 
             % teste les 4 plans de division de la voiture A
             for i = 1:4
-                normale = Collisions.trouverNormale(pointsA(i), pointsA(mod(i+1, 4)));
-                if(~Collisions.collisionPlanDivision(normale, pointsA(i), pointsB))
-                    collision = Variables.collIndetermine;
+                secondIndex = mod(i, 4) + 1;
+                normale = Collisions.trouverNormale(pointsA(i,:), pointsA(secondIndex,:));
+                if(~Collisions.collisionPlanDivision(normale, pointsA(i,:), pointsB))
+                    coll = Variables.collIndetermine;
+                    normaleRet = normale;
+                    break;
                 end
             end
 
             % teste les 4 plans de division de la voiture B
             for i = 1:4
-                normale = Collisions.trouverNormale(pointsB(i), pointsB(mod(i+1, 4)));
-                if(~Collisions.collisionPlanDivision(normale, pointsB(i), pointsA))
-                    collision = Variables.collIndetermine;
+                secondIndex = mod(i, 4) + 1;
+                normale = Collisions.trouverNormale(pointsB(i,:), pointsB(secondIndex,:));
+                if(~Collisions.collisionPlanDivision(normale, pointsB(i,:), pointsA))
+                    coll = Variables.collIndetermine;
+                    normaleRet = normale;
+                    break;
                 end
             end
+            collision = coll;
         end
 
         % Trouve toutes les positions des points des deux rectangles
@@ -58,6 +65,7 @@ classdef Collisions
             pointA4 = matriceRotationA * [posa(1) - Variables.la/2; posa(2) + Variables.La/2];
 
             pointsA = [pointA1 pointA2 pointA3 pointA4];
+            pointsA = pointsA.';
 
             pointB1 = matriceRotationB * [posb(1) + Variables.lb/2; posb(2) + Variables.Lb/2];
             pointB2 = matriceRotationB * [posb(1) + Variables.lb/2; posb(2) - Variables.Lb/2];
@@ -65,21 +73,22 @@ classdef Collisions
             pointB4 = matriceRotationB * [posb(1) - Variables.lb/2; posb(2) + Variables.Lb/2];
 
             pointsB = [pointB1 pointB2 pointB3 pointB4];
+            pointsB = pointsB.';
         end
 
         %trouve la normale associé au plan formé par les points point1 et point2
         function normale = trouverNormale(point1, point2)
             arrete = point2 - point1;
             matriceRotation = [cos(pi/2) -sin(pi/2); sin(pi/2) cos(pi/2)];
-            normale = matriceRotation * arrete;
+            normale = matriceRotation * arrete.';
             normale = normale/norm(normale);
         end
 
         %Trouve toutes les distances entre les points pointsSolide et le plan de division
         function distances = calculerDistances(normale, pointPlan, pointsSolide)
-            distances = zeros(4);
+            distances = [0 0 0 0];
             for i = 1:4
-                distances(i) = normale * (pointsSolide(i) - pointPlan);
+                distances(i) = normale.' * (pointsSolide(i,:) - pointPlan).';
             end
         end
 

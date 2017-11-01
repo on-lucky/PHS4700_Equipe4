@@ -11,6 +11,7 @@ classdef Outils
             t0 = 0;
             coll = Variables.collIndetermine;
             pasEncoreGlissementB = true;
+            normale = [0; 0];
             while (coll == Variables.collIndetermine)
                 t0 = t0 + DeltaT;
                 if (t0 >= tb)
@@ -24,7 +25,9 @@ classdef Outils
                 
                 coll = Collisions.verifierProximite([q0a(3) q0a(4)], [q0b(3) q0b(4)]);
                 if(coll == Variables.collProximite)
-                    %coll = Collisions.planDivision([q0a(3) q0a(4)], [q0b(3) q0b(4)], angleRotA, angleRotB);
+                    angleRotA = vai(3) * t0;
+                    angleRotB = vbi(3) * t0;
+                    [coll, normale] = Collisions.planDivision([q0a(3) q0a(4)], [q0b(3) q0b(4)], angleRotA, angleRotB);
                 end
                 
                 vitessePlusVite = Outils.vitessePlusVite([q0a(1) q0a(2)], [q0b(1) q0b(2)]);
@@ -38,6 +41,7 @@ classdef Outils
                     pasEncoreGlissementB = false;
                 end
             end
+            lol =normale
             tf = t0;
             Coll = coll;
             if(coll == Variables.collRatee)
@@ -46,7 +50,11 @@ classdef Outils
                 vbf = [q0b(1) q0b(2) vbi(3)];
                 rbf = [q0b(3) q0b(4)];
             else
-                %[vaf, raf, vbf, rbf] = Collisions.conditionsInitiales();
+                vaf = [q0a(1) q0a(2) vai(3)];
+                raf = [q0a(3) q0a(4)];
+                vbf = [q0b(1) q0b(2) vbi(3)];
+                rbf = [q0b(3) q0b(4)];
+                %[vaf, raf, vbf, rbf] = CondInit.conditionsInitiales([q0a(1) q0a(2)], [q0b(1) q0b(2)]);
             end
             sizeTrajectoire = size(trajectoirea);
             Outils.genererGraphe(trajectoirea, trajectoireb, sizeTrajectoire(1));

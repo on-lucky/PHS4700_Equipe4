@@ -30,7 +30,6 @@ classdef Variables
         collProximite = 2;
         
         avecFrot = true;
-        
     end
   methods (Static)   
     function coFrot = coefficientFrot(vitesse)
