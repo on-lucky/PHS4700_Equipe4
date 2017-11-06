@@ -1,6 +1,10 @@
 classdef Outils
     methods (Static)
         function [Coll, tf, raf, vaf, rbf, vbf] = avantCollision(rai, vai, rbi, vbi, tb)
+            
+            angleInitA = atan(vai(2)/vai(1));
+            angleInitB = atan(vbi(2)/vbi(1));
+            
             q0a = [vai(1) vai(2) ...
 				  rai(1) rai(2)];
             q0b = [vbi(1) vbi(2) ...
@@ -12,6 +16,7 @@ classdef Outils
             coll = Variables.collIndetermine;
             pasEncoreGlissementB = true;
             normale = [0; 0];
+            fausseNormale = [0; 0];
             while (coll == Variables.collIndetermine)
                 t0 = t0 + DeltaT;
                 if (t0 >= tb)
@@ -25,9 +30,12 @@ classdef Outils
                 
                 coll = Collisions.verifierProximite([q0a(3) q0a(4)], [q0b(3) q0b(4)]);
                 if(coll == Variables.collProximite)
-                    angleRotA = vai(3) * t0;
-                    angleRotB = vbi(3) * t0;
-                    [coll, normale] = Collisions.planDivision([q0a(3) q0a(4)], [q0b(3) q0b(4)], angleRotA, angleRotB);
+                    angleRotA = angleInitA + (vai(3) * t0);
+                    angleRotB = angleInitB + (vbi(3) * t0);
+                    [coll, fausseNormale] = Collisions.planDivision([q0a(3); q0a(4)], [q0b(3); q0b(4)], angleRotA, angleRotB);
+                    if(fausseNormale(1) ~= 0 && fausseNormale(2) ~= 0)
+                      normale = fausseNormale;
+                    end
                 end
                 
                 vitessePlusVite = Outils.vitessePlusVite([q0a(1) q0a(2)], [q0b(1) q0b(2)]);
@@ -41,7 +49,6 @@ classdef Outils
                     pasEncoreGlissementB = false;
                 end
             end
-            lol =normale
             tf = t0;
             Coll = coll;
             if(coll == Variables.collRatee)
@@ -56,8 +63,10 @@ classdef Outils
                 rbf = [q0b(3) q0b(4)];
                 %[vaf, raf, vbf, rbf] = CondInit.conditionsInitiales([q0a(1) q0a(2)], [q0b(1) q0b(2)]);
             end
+            angleRotA = angleInitA + (vai(3) * t0)
+            angleRotB = angleInitB + (vbi(3) * t0)
             sizeTrajectoire = size(trajectoirea);
-            Outils.genererGraphe(trajectoirea, trajectoireb, sizeTrajectoire(1));
+            Outils.genererGraphe(trajectoirea, trajectoireb, sizeTrajectoire(1), [q0a(3) q0a(4)], [q0b(3) q0b(4)], angleInitA, angleInitB, angleRotA, angleRotB);
         end
         
         function v = vitessePlusVite(va, vb)
@@ -107,14 +116,33 @@ classdef Outils
 			     q0(1) q0(2)];
         end
         
-        function genererGraphe(trajectoirea, trajectoireb, size) 
+        function genererGraphe(trajectoirea, trajectoireb, size, posA, posB, angleInitA, angleInitB, angleRotA, angleRotB) 
             
-            %dessiner la table
-%             ptsTable = [Variables.pointTable1; Variables.pointTable2; Variables.pointTable3; Variables.pointTable4; Variables.pointTable1];
-%             ligneTable = plot3(ptsTable(:,1), ptsTable(:,2), ptsTable(:,3))
-%             ligneTable.Color = 'blue';
-%             
-%             hold on
+            %dessiner les voitures
+            
+            %avant simulation
+            [ptsVoitA, ptsVoitB] = Collisions.trouverCoins([trajectoirea(1,1); trajectoirea(1,2)], [trajectoireb(1,1); trajectoireb(1,2)], angleInitA, angleInitB);
+            ligneVoitA = plot(ptsVoitA(:,1), ptsVoitA(:,2));
+            ligneVoitA.Color = 'blue';
+            
+            hold on
+            
+            ligneVoitB = plot(ptsVoitB(:,1), ptsVoitB(:,2));
+            ligneVoitB.Color = 'red';
+            
+            hold on
+            
+            %après simulation
+            [ptsVoitA, ptsVoitB] = Collisions.trouverCoins([posA(1); posA(2)], [posB(1); posB(2)], angleRotA, angleRotB);
+            ligneVoitA = plot(ptsVoitA(:,1), ptsVoitA(:,2));
+            ligneVoitA.Color = 'blue';
+            
+            hold on
+            
+            ligneVoitB = plot(ptsVoitB(:,1), ptsVoitB(:,2));
+            ligneVoitB.Color = 'red';
+            
+            hold on
             
             X = zeros(size, 1);
             Y = zeros(size, 1);

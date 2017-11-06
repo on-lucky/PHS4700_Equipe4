@@ -28,7 +28,9 @@ classdef Collisions
 
             % On assume qu'il y a une collision. Si on trouve un plan de division, on prouve qu'il n'y en a pas.
             coll = Variables.collReussie;
-
+            
+            normaleRet = [0; 0];
+            
             % teste les 4 plans de division de la voiture A
             for i = 1:4
                 secondIndex = mod(i, 4) + 1;
@@ -59,18 +61,18 @@ classdef Collisions
             matriceRotationA = [cos(angleRotA) -sin(angleRotA); sin(angleRotA) cos(angleRotA)];
             matriceRotationB = [cos(angleRotB) -sin(angleRotB); sin(angleRotB) cos(angleRotB)];
 
-            pointA1 = matriceRotationA * [posa(1) + Variables.la/2; posa(2) + Variables.La/2];
-            pointA2 = matriceRotationA * [posa(1) + Variables.la/2; posa(2) - Variables.La/2];
-            pointA3 = matriceRotationA * [posa(1) - Variables.la/2; posa(2) - Variables.La/2];
-            pointA4 = matriceRotationA * [posa(1) - Variables.la/2; posa(2) + Variables.La/2];
+            pointA1 = posa + matriceRotationA * [Variables.La/2; Variables.la/2];
+            pointA2 = posa + matriceRotationA * [Variables.La/2; - Variables.la/2];
+            pointA3 = posa + matriceRotationA * [- Variables.La/2; - Variables.la/2];
+            pointA4 = posa + matriceRotationA * [- Variables.La/2; Variables.la/2];
 
             pointsA = [pointA1 pointA2 pointA3 pointA4];
             pointsA = pointsA.';
 
-            pointB1 = matriceRotationB * [posb(1) + Variables.lb/2; posb(2) + Variables.Lb/2];
-            pointB2 = matriceRotationB * [posb(1) + Variables.lb/2; posb(2) - Variables.Lb/2];
-            pointB3 = matriceRotationB * [posb(1) - Variables.lb/2; posb(2) - Variables.Lb/2];
-            pointB4 = matriceRotationB * [posb(1) - Variables.lb/2; posb(2) + Variables.Lb/2];
+            pointB1 = posb + matriceRotationB * [Variables.Lb/2; Variables.lb/2];
+            pointB2 = posb + matriceRotationB * [Variables.Lb/2; - Variables.lb/2];
+            pointB3 = posb + matriceRotationB * [- Variables.Lb/2; - Variables.lb/2];
+            pointB4 = posb + matriceRotationB * [- Variables.Lb/2; Variables.lb/2];
 
             pointsB = [pointB1 pointB2 pointB3 pointB4];
             pointsB = pointsB.';
