@@ -122,11 +122,13 @@ classdef Outils
             
             %avant simulation
             [ptsVoitA, ptsVoitB] = Collisions.trouverCoins([trajectoirea(1,1); trajectoirea(1,2)], [trajectoireb(1,1); trajectoireb(1,2)], angleInitA, angleInitB);
+            ptsVoitA = [ptsVoitA(1,:); ptsVoitA(2,:); ptsVoitA(3,:); ptsVoitA(4,:); ptsVoitA(1,:)];
             ligneVoitA = plot(ptsVoitA(:,1), ptsVoitA(:,2));
             ligneVoitA.Color = 'blue';
             
             hold on
             
+            ptsVoitB = [ptsVoitB(1,:); ptsVoitB(2,:); ptsVoitB(3,:); ptsVoitB(4,:); ptsVoitB(1,:)];
             ligneVoitB = plot(ptsVoitB(:,1), ptsVoitB(:,2));
             ligneVoitB.Color = 'red';
             
@@ -134,11 +136,13 @@ classdef Outils
             
             %après simulation
             [ptsVoitA, ptsVoitB] = Collisions.trouverCoins([posA(1); posA(2)], [posB(1); posB(2)], angleRotA, angleRotB);
+            ptsVoitA = [ptsVoitA(1,:); ptsVoitA(2,:); ptsVoitA(3,:); ptsVoitA(4,:); ptsVoitA(1,:)];
             ligneVoitA = plot(ptsVoitA(:,1), ptsVoitA(:,2));
             ligneVoitA.Color = 'blue';
             
             hold on
             
+            ptsVoitB = [ptsVoitB(1,:); ptsVoitB(2,:); ptsVoitB(3,:); ptsVoitB(4,:); ptsVoitB(1,:)];
             ligneVoitB = plot(ptsVoitB(:,1), ptsVoitB(:,2));
             ligneVoitB.Color = 'red';
             
