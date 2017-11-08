@@ -54,18 +54,18 @@ classdef Outils
             Coll = coll;
             if(coll == Variables.collRatee)
                 vaf = [q0a(1) q0a(2) vai(3)];
-                raf2D = [q0a(3) q0a(4)];
+                raf = [q0a(3) q0a(4)];
                 vbf = [q0b(1) q0b(2) vbi(3)];
-                rbf2D = [q0b(3) q0b(4)];
+                rbf = [q0b(3) q0b(4)];
             else
-                raf2D = [q0a(3) q0a(4)];
-                rbf2D = [q0b(3) q0b(4)];
+                vaf_avantColl = [q0a(1) q0a(2) vai(3)];
+                raf = [q0a(3) q0a(4)];
+                vbf = [q0b(1) q0b(2) vbi(3)];
+                rbf = [q0b(3) q0b(4)];
                 [vaf, vbf] = CondInit.conditionsInitiales([q0a(1) q0a(2)], [q0b(1) q0b(2)], [q0a(3) q0a(4)], [q0b(3) q0b(4)], normale, vai(3), vbi(3));
             end
             angleRotA = mod(angleInitA + (vai(3) * t0), 2*pi);
             angleRotB = mod(angleInitB + (vbi(3) * t0), 2*pi);
-            raf = [raf2D(1) raf2D(2) angleRotA];
-            rbf = [rbf2D(1) rbf2D(2) angleRotB];
             sizeTrajectoire = size(trajectoirea);
             Outils.genererGraphe(trajectoirea, trajectoireb, sizeTrajectoire(1), [q0a(3) q0a(4)], [q0b(3) q0b(4)], angleInitA, angleInitB, angleRotA, angleRotB);
         end
@@ -171,12 +171,12 @@ classdef Outils
             
             xlabel('x');
             ylabel('y');
-            % title('Essai 1');
+            title('Essai 1');
             % title('Essai 2');
             % title('Essai 3');
             % title('Essai 4');
             % title('Essai 5');
-            title('Essai 6');
+            % title('Essai 6');
         end
     end
 end
