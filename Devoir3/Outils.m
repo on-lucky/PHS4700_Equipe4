@@ -31,13 +31,16 @@ classdef Outils
                 coll = Collisions.verifierProximite([q0a(3) q0a(4)], [q0b(3) q0b(4)]);
                 if(coll == Variables.collProximite)
                     angleRotA = angleInitA + (vai(3) * t0);
-                    angleRotB = angleInitB + (vbi(3) * t0);
-                    [coll, fausseNormale] = Collisions.planDivision([q0a(3); q0a(4)], [q0b(3); q0b(4)], angleRotA, angleRotB);
+                    angleRotB = angleInitB + (vbi(3) * (t0 - tb));
+                    if (t0 < tb)
+                        [coll, fausseNormale] = Collisions.planDivision([q0a(3); q0a(4)], [q0b(3); q0b(4)], angleRotA, angleInitB);
+                    else
+                        [coll, fausseNormale] = Collisions.planDivision([q0a(3); q0a(4)], [q0b(3); q0b(4)], angleRotA, angleRotB);
+                    end
                     if(fausseNormale(1) ~= 0 && fausseNormale(2) ~= 0)
                       normale = fausseNormale;
-                    end
+                    end   
                 end
-                
                 
                 vitessePlusVite = Outils.vitessePlusVite([q0a(1) q0a(2)], [q0b(1) q0b(2)]);
                 if (vitessePlusVite < Variables.vitesseMinimaleSimulation)
@@ -63,7 +66,7 @@ classdef Outils
                 [vaf, vbf] = CondInit.conditionsInitiales([q0a(1) q0a(2)], [q0b(1) q0b(2)], [q0a(3) q0a(4)], [q0b(3) q0b(4)], normale, vai(3), vbi(3));
             end
             angleRotA = mod(angleInitA + (vai(3) * t0), 2*pi);
-            angleRotB = mod(angleInitB + (vbi(3) * t0), 2*pi);
+            angleRotB = mod(angleInitB + (vbi(3) * (t0 - tb)), 2*pi);
             raf = [raf2D(1) raf2D(2) angleRotA];
             rbf = [rbf2D(1) rbf2D(2) angleRotB];
             sizeTrajectoire = size(trajectoirea);

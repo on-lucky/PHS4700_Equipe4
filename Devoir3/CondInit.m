@@ -35,7 +35,7 @@ classdef CondInit
             j = -(1 + Variables.coefficientRes) * vrMoins/(1/Variables.ma + 1/Variables.mb + Ga + Gb)
             
             vaf2D = va.' + normale * j / Variables.ma;
-            vbf2D = vb.' + normale * j / Variables.mb;
+            vbf2D = vb.' - normale * j / Variables.mb;
             
             waf = wa + j * vecteurTempA(3);
             wbf = wb + j * vecteurTempB(3);
