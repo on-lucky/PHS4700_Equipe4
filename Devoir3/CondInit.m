@@ -38,7 +38,7 @@ classdef CondInit
             vbf2D = vb.' - normale * j / Variables.mb;
             
             waf = wa + j * vecteurTempA(3);
-            wbf = wb + j * vecteurTempB(3);
+            wbf = wb - j * vecteurTempB(3);
             
             vaf = [vaf2D(1) vaf2D(2) waf];
             vbf = [vbf2D(1) vbf2D(2) wbf];
