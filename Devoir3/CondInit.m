@@ -1,7 +1,10 @@
 classdef CondInit
     methods (Static)
-        function [vaf, vbf] = conditionsInitiales(va, vb, ra, rb, normale, wa, wb)
+        function [vaf, vbf] = conditionsInitiales(va, vb, ra, rb, normale, wa, wb, voitureN, p)
             vrMoins = dot(normale, (va - vb));
+            
+            rap = ra - p;
+            rbp = rb - p;
             
             Iaz = (Variables.ma / 12) * (Variables.La^2 + Variables.la^2);
             Iay = (Variables.ma / 12) * (Variables.ha^2 + Variables.la^2);
@@ -20,8 +23,8 @@ classdef CondInit
                   0 0 Ibz];
               
             normale3D = [normale(1); normale(2); 0];
-            ra3D = [ra(1); ra(2); 0]
-            rb3D = [rb(1); rb(2); 0]
+            ra3D = [rap(1); rap(2); 0]
+            rb3D = [rbp(1); rbp(2); 0]
             
             vecteurTempA = inv(Ia) * cross(ra3D, normale3D);
             vecteurTempB = inv(Ib) * cross(rb3D, normale3D);
@@ -31,14 +34,23 @@ classdef CondInit
             
             Ga = dot(normale3D, yoa);
             Gb = dot(normale3D, yob);
+           
+            alpha = 1/(1/Variables.ma + 1/Variables.mb + Ga + Gb);
             
-            j = -(1 + Variables.coefficientRes) * vrMoins/(1/Variables.ma + 1/Variables.mb + Ga + Gb)
+            j = -(1 + Variables.coefficientRes) * vrMoins/(1/Variables.ma + 1/Variables.mb + Ga + Gb);
             
-            vaf2D = va.' + normale * j / Variables.ma;
-            vbf2D = vb.' - normale * j / Variables.mb;
-            
-            waf = wa + j * vecteurTempA(3);
-            wbf = wb - j * vecteurTempB(3);
+            allo = normale * j / Variables.ma;
+            if(voitureN == 2)
+                vaf2D = va.' - normale * j / Variables.ma;
+                vbf2D = vb.' + normale * j / Variables.mb;
+                waf = wa - j * vecteurTempA(3);
+                wbf = wb + j * vecteurTempB(3);
+            else
+                vaf2D = va.' + normale * j / Variables.ma;
+                vbf2D = vb.' - normale * j / Variables.mb;
+                waf = wa + j * vecteurTempA(3);
+                wbf = wb - j * vecteurTempB(3);
+            end
             
             vaf = [vaf2D(1) vaf2D(2) waf];
             vbf = [vbf2D(1) vbf2D(2) wbf];

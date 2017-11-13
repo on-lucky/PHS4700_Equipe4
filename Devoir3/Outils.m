@@ -16,6 +16,7 @@ classdef Outils
             coll = Variables.collIndetermine;
             pasEncoreGlissementB = true;
             normale = [0; 0];
+            voitureN = 0;
             fausseNormale = [0; 0];
             while (coll == Variables.collIndetermine)
                 t0 = t0 + DeltaT;
@@ -33,12 +34,13 @@ classdef Outils
                     angleRotA = angleInitA + (vai(3) * t0);
                     angleRotB = angleInitB + (vbi(3) * (t0 - tb));
                     if (t0 < tb)
-                        [coll, fausseNormale] = Collisions.planDivision([q0a(3); q0a(4)], [q0b(3); q0b(4)], angleRotA, angleInitB);
+                        [coll, fausseNormale, p] = Collisions.planDivision([q0a(3); q0a(4)], [q0b(3); q0b(4)], angleRotA, angleInitB);
                     else
-                        [coll, fausseNormale] = Collisions.planDivision([q0a(3); q0a(4)], [q0b(3); q0b(4)], angleRotA, angleRotB);
+                        [coll, fausseNormale, p] = Collisions.planDivision([q0a(3); q0a(4)], [q0b(3); q0b(4)], angleRotA, angleRotB);
                     end
                     if(fausseNormale(1) ~= 0 && fausseNormale(2) ~= 0)
                       normale = fausseNormale;
+                      voitureN = Collisions.voitureN;
                     end   
                 end
                 
@@ -63,7 +65,7 @@ classdef Outils
             else
                 raf2D = [q0a(3) q0a(4)];
                 rbf2D = [q0b(3) q0b(4)];
-                [vaf, vbf] = CondInit.conditionsInitiales([q0a(1) q0a(2)], [q0b(1) q0b(2)], [q0a(3) q0a(4)], [q0b(3) q0b(4)], normale, vai(3), vbi(3));
+                [vaf, vbf] = CondInit.conditionsInitiales([q0a(1) q0a(2)], [q0b(1) q0b(2)], [q0a(3) q0a(4)], [q0b(3) q0b(4)], normale, vai(3), vbi(3), voitureN, p);
             end
             angleRotA = mod(angleInitA + (vai(3) * t0), 2*pi);
             angleRotB = mod(angleInitB + (vbi(3) * (t0 - tb)), 2*pi);

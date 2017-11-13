@@ -1,15 +1,15 @@
 rai = [0; 0];
 
-%Essai 1
+% Essai 1
 
-% vai_1 = [20; 0; 2];
-% rbi_1 = [100; 100];
-% vbi_1 = [0; -20; -1];
-% tb_1 = 0;
-% 
-% [Coll_1, tf_1, raf_1, vaf_1, rbf_1, vbf_1] = Devoir3(rai, vai_1, rbi_1, vbi_1, tb_1)
+vai_1 = [20; 0; 2];
+rbi_1 = [100; 100];
+vbi_1 = [0; -20; -1];
+tb_1 = 0;
 
-% % Essai 2
+[Coll_1, tf_1, raf_1, vaf_1, rbf_1, vbf_1] = Devoir3(rai, vai_1, rbi_1, vbi_1, tb_1)
+
+% Essai 2
 % 
 % vai_2 = [30; 0; 2];
 % rbi_2 = [100; 100];
@@ -20,12 +20,12 @@ rai = [0; 0];
     
 % Essai 3
 % 
-vai_3 = [20; 0; 2];
-rbi_3 = [100; 50];
-vbi_3 = [0; -10; 0];
-tb_3 = 1.6;
-
-[Coll_3, tf_3, raf_3, vaf_3, rbf_3, vbf_3] = Devoir3(rai, vai_3, rbi_3, vbi_3, tb_3)
+% vai_3 = [20; 0; 2];
+% rbi_3 = [100; 50];
+% vbi_3 = [0; -10; 0];
+% tb_3 = 1.6;
+% 
+% [Coll_3, tf_3, raf_3, vaf_3, rbf_3, vbf_3] = Devoir3(rai, vai_3, rbi_3, vbi_3, tb_3)
 
 % Essai 4
 % 
