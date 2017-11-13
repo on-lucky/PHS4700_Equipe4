@@ -1,9 +1,4 @@
 classdef Collisions
-    properties
-        a = 0;
-        b = 0;
-        voitureN = 0;
-    end
     methods (Static)
         
         function estProche = verifierProximite(posa, posb)
@@ -29,13 +24,17 @@ classdef Collisions
         end
 
         % cherche une collision avec la méthode du plan de division
-        function [collision, normaleRet, p] = planDivision(posa, posb, angleRotA, angleRotB)
+        function [collision, normaleRet,voitureN, p, a, b] = planDivision(posa, posb, angleRotA, angleRotB, ain, bin)
             [pointsA, pointsB] = Collisions.trouverCoins(posa, posb, angleRotA, angleRotB);
 
             % On assume qu'il y a une collision. Si on trouve un plan de division, on prouve qu'il n'y en a pas.
             coll = Variables.collReussie;
             
             normaleRet = [0 0];
+            p = [0 0];
+            voitureN = 0;
+            a = ain;
+            b = bin;
             
             % teste les 4 plans de division de la voiture A
             for i = 1:4
@@ -44,9 +43,9 @@ classdef Collisions
                 if(~Collisions.collisionPlanDivision(normale, pointsA(i,:), pointsB))
                     coll = Variables.collIndetermine;
                     normaleRet = normale;
-                    Collisions.voitureN = 1;
-                    Collisions.a = (pointsA(secondIndex,2) - pointsA(i,2))/(pointsA(secondIndex,1) - pointsA(i,1));
-                    Collisions.b = pointsA(i,2) - (Collisions.a * pointsA(i,1));
+                    voitureN = 1;
+                    a = (pointsA(secondIndex,2) - pointsA(i,2))/(pointsA(secondIndex,1) - pointsA(i,1));
+                    b = pointsA(i,2) - (a * pointsA(i,1));
                     break;
                 end
             end
@@ -58,27 +57,27 @@ classdef Collisions
                 if(~Collisions.collisionPlanDivision(normale, pointsB(i,:), pointsA))
                     coll = Variables.collIndetermine;
                     normaleRet = normale;
-                    Collisions.voitureN = 2;
-                    Collisions.a = (pointsB(secondIndex,2) - pointsB(i,2))/(pointsB(secondIndex,1) - pointsB(i,1));
-                    Collisions.b = pointsB(i,2) - (Collisions.a * pointsB(i,1));
+                    voitureN = 2;
+                    a = (pointsB(secondIndex,2) - pointsB(i,2))/(pointsB(secondIndex,1) - pointsB(i,1));
+                    b = pointsB(i,2) - (a * pointsB(i,1));
                     break;
                 end
             end
             
             if(normaleRet(1) == 0 && normaleRet(2) == 0)
-                if(Collisions.voitureN == 1)
-                    p = trouverPtCollision(pointsB);
+                if(voitureN == 1)
+                    p = Collisions.trouverPtCollision(pointsB, a, b);
                 else
-                    p = trouverPtCollision(pointsA);
+                    p = Collisions.trouverPtCollision(pointsA, a, b);
                 end
             end  
             collision = coll;
         end
         
-        function p = trouverPtCollision(points)
+        function p = trouverPtCollision(points, a, b)
             distances = [0 0 0 0];
            for i = 1:4
-                distances(i) = abs((a*pointsB(i,1) + b) - pointsB(i,2))
+                distances(i) = abs((a *points(i,1) + b) - points(i,2));
            end
            distance = 100;
            indexChoisi = 1;
@@ -88,7 +87,7 @@ classdef Collisions
                     indexChoisi = i;
                 end
            end
-           p = pointsB(indexChoisi,:);
+           p = points(indexChoisi,:);
         end
 
         % Trouve toutes les positions des points des deux rectangles
@@ -139,10 +138,6 @@ classdef Collisions
                     collision = true;
                 end
             end
-        end
-        function trouverPentePts(pt1, pt2)
-            Collisions.a = (pt1(2) - pt2(2))/(pt1(1) - pt2(1));
-            Collisions.b = pt1(2) - (Collisions.a * pt1(1));
         end
     end
 end

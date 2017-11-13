@@ -17,6 +17,9 @@ classdef Outils
             pasEncoreGlissementB = true;
             normale = [0; 0];
             voitureN = 0;
+            a = 0;
+            b = 0;
+            fausseVoitureN = 0;
             fausseNormale = [0; 0];
             while (coll == Variables.collIndetermine)
                 t0 = t0 + DeltaT;
@@ -34,13 +37,13 @@ classdef Outils
                     angleRotA = angleInitA + (vai(3) * t0);
                     angleRotB = angleInitB + (vbi(3) * (t0 - tb));
                     if (t0 < tb)
-                        [coll, fausseNormale, p] = Collisions.planDivision([q0a(3); q0a(4)], [q0b(3); q0b(4)], angleRotA, angleInitB);
+                        [coll, fausseNormale, fausseVoitureN, p, a, b] = Collisions.planDivision([q0a(3); q0a(4)], [q0b(3); q0b(4)], angleRotA, angleInitB, a, b);
                     else
-                        [coll, fausseNormale, p] = Collisions.planDivision([q0a(3); q0a(4)], [q0b(3); q0b(4)], angleRotA, angleRotB);
+                        [coll, fausseNormale, fausseVoitureN, p, a, b] = Collisions.planDivision([q0a(3); q0a(4)], [q0b(3); q0b(4)], angleRotA, angleRotB, a, b);
                     end
                     if(fausseNormale(1) ~= 0 && fausseNormale(2) ~= 0)
                       normale = fausseNormale;
-                      voitureN = Collisions.voitureN;
+                      voitureN = fausseVoitureN;
                     end   
                 end
                 
@@ -179,9 +182,9 @@ classdef Outils
             % title('Essai 1');
             % title('Essai 2');
             % title('Essai 3');
-            % title('Essai 4');
+             title('Essai 4');
             % title('Essai 5');
-            title('Essai 6');
+            % title('Essai 6');
         end
     end
 end

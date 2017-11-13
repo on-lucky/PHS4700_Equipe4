@@ -23,8 +23,8 @@ classdef CondInit
                   0 0 Ibz];
               
             normale3D = [normale(1); normale(2); 0];
-            ra3D = [rap(1); rap(2); 0]
-            rb3D = [rbp(1); rbp(2); 0]
+            ra3D = [rap(1); rap(2); 0];
+            rb3D = [rbp(1); rbp(2); 0];
             
             vecteurTempA = inv(Ia) * cross(ra3D, normale3D);
             vecteurTempB = inv(Ib) * cross(rb3D, normale3D);
@@ -34,12 +34,9 @@ classdef CondInit
             
             Ga = dot(normale3D, yoa);
             Gb = dot(normale3D, yob);
-           
-            alpha = 1/(1/Variables.ma + 1/Variables.mb + Ga + Gb);
             
             j = -(1 + Variables.coefficientRes) * vrMoins/(1/Variables.ma + 1/Variables.mb + Ga + Gb);
             
-            allo = normale * j / Variables.ma;
             if(voitureN == 2)
                 vaf2D = va.' - normale * j / Variables.ma;
                 vbf2D = vb.' + normale * j / Variables.mb;
