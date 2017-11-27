@@ -1,10 +1,10 @@
 classdef Camera
     methods (Static)
-        function [distanceMoins, distancePlus] = trouverDistancesTheta (distance, hauteurMoinsTheta, hauteurPlusTheta)
-            if (hauteurMoinsTheta < 0)
+        function [distanceMoins, distancePlus] = trouverDistancesTheta (distance, hauteurMoinsTheta, hauteursPlusTheta)
+            if (hauteursMoinsTheta < 0)
                 distanceMoins = distance + Variables.Rcy;
                 distancePlus = distance - Variables.Rcy;
-            elseif(hauteurPlusTheta > 0)
+            elseif(hauteursPlusTheta > 0)
                 distanceMoins = distance - Variables.Rcy;
                 distancePlus = distance + Variables.Rcy;
             else 

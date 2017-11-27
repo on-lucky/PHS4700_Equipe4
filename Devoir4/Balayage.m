@@ -4,18 +4,12 @@ classdef Balayage
             
             [thetaMoins, thetaPlus, phiMoins, phiPlus] = Camera.trouverAngles(robs);
             
-            [thetas, phis] = Balayage.trouverAngles(thetaMoins, thetaPlus, phiMoins, phiPlus);
+            [thetas, phis] = trouverAngles(thetaMoins, thetaPlus, phiMoins, phiPlus);
             
-            rayons = zeros([Variables.M, Variables.N*3]);
-            for(n = 1:(Variables.N*3))
+            rayons = zeros(Variables.N, Variables.M);
+            for(n = 1:Variables.N)
                 for(m = 1:Variables.M)
-                    if(mod(n,3) == 1)
-                        rayons(m,n) = sin(thetas(ceil(n/3))) * cos(phis(m));
-                    elseif(mod(n,3) ==2)
-                        rayons(m,n) = sin(thetas(ceil(n/3))) * sin(phis(m));
-                    else
-                        rayons(m,n) = cos(thetas(ceil(n/3)));
-                    end
+                    rayons(n,m) = [ (sin(thetas(n)) * cos(phis(m))), (sin(thetas(n)) * sin(phis(m))), (cos(thetas(n)))];
                 end
             end
         end
