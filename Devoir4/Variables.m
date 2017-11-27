@@ -18,6 +18,9 @@ classdef Variables
         f5col = 'blue';
         f6col = 'magenta';
         
+        N = 10;
+        M = 10;
+        
         essai = 1;
     end
 end
