@@ -3,7 +3,7 @@ classdef Variables
         Rcy = 2;
         Hcyh = 20;
         Hcyb = 2;
-        Hcy = Hcyh - Hcyb;
+        Hcy = Variables.Hcyh - Variables.Hcyb;
         CMcy = [4 4 11];
         
         xb = 1;
