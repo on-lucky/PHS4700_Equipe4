@@ -1,4 +1,4 @@
-    classdef Variables
+classdef Variables
     properties (Constant)
         Rcy = 2;
         Hcyh = 20;
