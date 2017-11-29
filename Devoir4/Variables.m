@@ -4,12 +4,12 @@ classdef Variables
         Hcyh = 20;
         Hcyb = 2;
         Hcy = Variables.Hcyh - Variables.Hcyb;
-        CMcy = [4 4 11];
+        CMcy = [4; 4; 11];
         
         xb = 1;
         yb = 2;
         zb = 5;
-        CMb = [3.5 4 14.5];
+        CMb = [3.5; 4; 14.5];
         
         f1col = 'red';
         f2col = 'cyan';
@@ -17,6 +17,13 @@ classdef Variables
         f4col = 'yellow';
         f5col = 'blue';
         f6col = 'magenta';
+        
+        planZHaut = Variables.CMb(3) + Variables.zb / 2;
+        planZBas = Variables.CMb(3) - Variables.zb / 2;
+        planXGauche = Variables.CMb(1) + Variables.xb / 2;
+        planXDroit = Variables.CMb(1) - Variables.xb / 2;
+        planYGauche = Variables.CMb(2) + Variables.yb / 2;
+        planYDroit = Variables.CMb(2) - Variables.yb / 2;
         
         N = 10;
         M = 10;
