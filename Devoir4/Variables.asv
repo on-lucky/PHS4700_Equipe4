@@ -11,7 +11,7 @@ classdef Variables
         zb = 5;
         CMb = [3.5; 4; 14.5];
         
-        notAlreadyCol = 'not already';
+        notAlreadyCol = '';
         f1col = 'red';
         f2col = 'cyan';
         f3col = 'green';

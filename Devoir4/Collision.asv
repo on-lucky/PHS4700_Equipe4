@@ -62,34 +62,18 @@ classdef Collision
             trouve = false;
             distance = -1;
             
-            % Vérifier une collision avec la face 1 du cube qui est dans le
-            % plan yz de la gauche du cube
-            y = orientation(2)*(Variables.plan1 - pointCollisionAvant(1))/orientation(1) + pointCollisionAvant(2);
-            z = orientation(3)*(Variables.plan1 - pointCollisionAvant(1))/orientation(1) + pointCollisionAvant(3);
-            if (y >= Variables.CMb(2) - Variables.yb && y <= Variables.CMb(2) + Variables.yb && z >= Variables.CMb(3) - Variables.zb && z <= Variables.CMb(3) + Variables.zb)
-                trouve = true;
-                pointTemp = [Variables.plan1; y; z];
-                distanceTemp = norm(pointTemp - pointCollisionAvant);
-                if (distance == -1 || distanceTemp < distance)
-                    point = pointTemp;
-                    couleur = Variables.f1col;
-                    normale = [-1; 0; 0];
-                    distance = distanceTemp;
-                end
-            end
-            
             % Vérifier une collision avec la face 2 du cube qui est dans le
             % plan yz de la droite du cube
             y = orientation(2)*(Variables.plan2 - pointCollisionAvant(1))/orientation(1) + pointCollisionAvant(2);
             z = orientation(3)*(Variables.plan2 - pointCollisionAvant(1))/orientation(1) + pointCollisionAvant(3);
             if (y >= Variables.CMb(2) - Variables.yb && y <= Variables.CMb(2) + Variables.yb && z >= Variables.CMb(3) - Variables.zb && z <= Variables.CMb(3) + Variables.zb)
                 trouve = true;
-                pointTemp = [Variables.plan2; y; z];
+                pointTemp = [x; ; z];
                 distanceTemp = norm(pointTemp - pointCollisionAvant);
                 if (distance == -1 || distanceTemp < distance)
                     point = pointTemp;
-                    couleur = Variables.f2col;
-                    normale = [1; 0; 0];
+                    couleur = Variables.f3col;
+                    normale = [0; -1; 0];
                     distance = distanceTemp;
                 end
             end
