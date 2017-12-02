@@ -26,8 +26,8 @@ classdef Variables
         plan5 = Variables.CMb(3) - Variables.zb / 2; % plan en xy
         plan6 = Variables.CMb(3) + Variables.zb / 2; % plan en xy
         
-        N = 200;
-        M = 200;
+        N = 400;
+        M = 400;
         
         nMaxCollisions = 100;
         

@@ -138,7 +138,9 @@ classdef Outils
             xlabel('x');
             ylabel('y');
             zlabel('z');
-            title(strcat('Essai ', Variables.essai));
+            
+            strEssai = int2str(Variables.essai);
+            title(strcat('Essai-', strEssai));
         end
     end
 end

@@ -67,7 +67,7 @@ classdef Collision
                 end
                 
                 point = [pointIntersX; pointIntersY; z];
-                normale = point - Variables.CMcy;
+                normale = point - [Variables.CMcy(1); Variables.CMcy(2); point(3)];
                 normale = normale / norm(normale);
             end
             

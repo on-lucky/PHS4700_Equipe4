@@ -15,6 +15,7 @@ classdef Optique
             
             sinTheta2 = ni/nt*dot(ui, k);
             
+            
             if (abs(sinTheta2) < 1)
                 rayonSortant = Optique.refraction(i, k, sinTheta2);
                 isReflexion = false;
