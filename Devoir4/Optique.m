@@ -1,6 +1,6 @@
 classdef Optique
     methods (Static)
-        function rayonSortant = trouverRayonSortant(ui, i, ni, nt)
+        function [rayonSortant, isReflexion] = trouverRayonSortant(ui, i, ni, nt)
             %normale unitaire
             i = i/norm(i);
             
@@ -17,10 +17,12 @@ classdef Optique
             
             if (abs(sinTheta2) < 1)
                 rayonSortant = Optique.refraction(i, k, sinTheta2);
+                isReflexion = false;
             else
                 %C'est impossible que |sin(theta2)| = 1, puisque le
                 %rayon entrant serait parallèle à la surface de collision
-                rayonSortant = Optique.refraction(ui, i);
+                rayonSortant = Optique.reflexion(ui, i);
+                isReflexion = true;
             end
         end
         

@@ -11,13 +11,13 @@ classdef Variables
         zb = 5;
         CMb = [3.5; 4; 14.5];
         
-        notAlreadyCol = 'not already';
-        f1col = 'red';
-        f2col = 'cyan';
-        f3col = 'green';
-        f4col = 'yellow';
-        f5col = 'blue';
-        f6col = 'magenta';
+        notAlreadyCol = 0;
+        f1col = 1;
+        f2col = 2;
+        f3col = 3;
+        f4col = 4;
+        f5col = 5;
+        f6col = 6;
         
         plan1 = Variables.CMb(1) + Variables.xb / 2; % plan en yz
         plan2 = Variables.CMb(1) - Variables.xb / 2; % plan en yz
@@ -26,8 +26,10 @@ classdef Variables
         plan5 = Variables.CMb(3) - Variables.zb / 2; % plan en xy
         plan6 = Variables.CMb(3) + Variables.zb / 2; % plan en xy
         
-        N = 10;
-        M = 10;
+        N = 100;
+        M = 100;
+        
+        nMaxCollisions = 100;
         
         essai = 1;
     end

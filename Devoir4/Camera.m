@@ -22,7 +22,7 @@ classdef Camera
             distance= sqrt((Variables.CMcy(1)- robs(1))^2 + (Variables.CMcy(2)-robs(2))^2);
         end
 
-        function [hauteurMoins, hauteurPlus] = trouverHauteurPhi (robs)
+        function [hauteurMoins, hauteurPlus] = trouverHauteurPhi ()
             hauteurMoins = Variables.Rcy;
             hauteurPlus = -Variables.Rcy;
         end
@@ -42,7 +42,7 @@ classdef Camera
 
         function [thetaMoins, thetaPlus, phiMoins, phiPlus] = trouverAngles (robs)
             [hauteurMoinsTheta, hauteurPlusTheta] = Camera.trouverHauteurTheta(robs);
-            [hauteurMoinsPhi, hauteurPlusPhi] = Camera.trouverHauteurPhi (robs)
+            [hauteurMoinsPhi, hauteurPlusPhi] = Camera.trouverHauteurPhi ();
 
             distance = Camera.trouverDistancesPhi(robs);
             [distanceMoins, distancePlus] = Camera.trouverDistancesTheta(distance, hauteurMoinsTheta, hauteurPlusTheta);
