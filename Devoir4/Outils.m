@@ -52,9 +52,6 @@ classdef Outils
             Outils.genererGraphe(pointPourGraphX, pointPourGraphY, pointPourGraphZ, face, poso);
         end
         
-        
-        
-        
         function genererGraphe(xToutesCouls, yToutesCouls, zToutesCouls, face, poso)
             
             % dessiner le cylindre
@@ -131,7 +128,7 @@ classdef Outils
             plot3(xBleu, yBleu, zBleu, '.b'); hold on
             plot3(xMagenta, yMagenta, zMagenta, '.m'); hold on
             
-            %dessin poso
+            % dessiner poso
             plot3(poso(1), poso(2), poso(3), '.'); 
             text(poso(1), poso(2), poso(3), 'poso');
             

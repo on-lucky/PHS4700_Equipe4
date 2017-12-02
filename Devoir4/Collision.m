@@ -255,17 +255,3 @@ classdef Collision
         end
     end
 end
-
-% function [point, couleur, distance] = verifierFaceCube()
-%  x = orientation(1)*(Variables.plan6 - pointCollisionAvant(3))/orientation(3) + pointCollisionAvant(1);
-%             y = orientation(2)*(Variables.plan6 - pointCollisionAvant(3))/orientation(3) + pointCollisionAvant(2);
-%             if (x >= Variables.CMb(1) - Variables.xb / 2 && x <= Variables.CMb(1) + Variables.xb / 2 && y >= Variables.CMb(2) - Variables.yb / 2 && y <= Variables.CMb(2) + Variables.yb / 2)
-%                 trouve = true;
-%                 pointTemp = [x; y; Variables.plan6];
-%                 distanceTemp = norm(pointTemp - pointCollisionAvant);
-%                 if (distance == -1 || distanceTemp < distance)
-%                     point = pointTemp;
-%                     couleur = Variables.f6col;
-%                 end
-%             end
-% end
