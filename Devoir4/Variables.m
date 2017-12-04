@@ -19,10 +19,10 @@ classdef Variables
         f5col = 5;
         f6col = 6;
         
-        plan1 = Variables.CMb(1) + Variables.xb / 2; % plan en yz
-        plan2 = Variables.CMb(1) - Variables.xb / 2; % plan en yz
-        plan3 = Variables.CMb(2) + Variables.yb / 2; % plan en xz
-        plan4 = Variables.CMb(2) - Variables.yb / 2; % plan en xz
+        plan1 = Variables.CMb(1) - Variables.xb / 2; % plan en yz
+        plan2 = Variables.CMb(1) + Variables.xb / 2; % plan en yz
+        plan3 = Variables.CMb(2) - Variables.yb / 2; % plan en xz
+        plan4 = Variables.CMb(2) + Variables.yb / 2; % plan en xz
         plan5 = Variables.CMb(3) - Variables.zb / 2; % plan en xy
         plan6 = Variables.CMb(3) + Variables.zb / 2; % plan en xy
         
